@@ -6,6 +6,7 @@ from pybricks.parameters import Port, Stop, Direction, Button, Color
 from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
+import time
 
 
 # This program requires LEGO EV3 MicroPython v2.0 or higher.
@@ -13,10 +14,8 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 
 # Initialize
 left_motor = Motor(Port.B)
-left_motor.run_time(360, 2000, Stop.COAST, False)
 
 right_motor = Motor(Port.C)
-right_motor.run_time(360, 2000, Stop.COAST, False)
 
 # Create your objects here.
 ev3 = EV3Brick()
@@ -26,23 +25,25 @@ from time import sleep
 
 # Define the movements for the figure-8 pattern
 # Adjust the durations and speeds as needed
+robot = DriveBase(left_motor, right_motor, wheel_diameter=56, axle_track=114)
 
-movements = [
-    (1, 50, 1),   # Move forward for 1 second at 50% speed
-    (0.5, -50, 1),  # Turn left for 0.5 seconds at 50% speed
-    (1, 50, 1),   # Move forward for 1 second at 50% speed
-    (0.5, -50, 1),  # Turn left for 0.5 seconds at 50% speed
-    (1, 50, 1),   # Move forward for 1 second at 50% speed
-    (0.5, -50, 1),  # Turn left for 0.5 seconds at 50% speed
-    (1, 50, 1),   # Move forward for 1 second at 50% speed
-    (0.5, -50, 1)   # Turn left for 0.5 seconds at 50% speed
-]
+# Function to drive in a figure "8"
+def drive_figure_8(drive_speed, turn_rate, loop_duration):
+    # Start the first loop of the "8" by turning in one direction
+    robot.drive(drive_speed, turn_rate)
+    time.sleep(loop_duration)
+    # Reverse the turn rate for the second loop, creating the other half of the "8"
+    robot.drive(drive_speed, -turn_rate)
+    time.sleep(loop_duration)
+    # Stop the robot after completing the figure "8"
+    robot.stop()
 
-# Execute the movements
-for move in movements:
-    duration, speed_left, speed_right = move
-    tank_drive.on_for_seconds(speed_left, speed_right, duration)
-    sleep(0.1)  # Add a small delay between movements
+# Example parameters (adjust based on your robot and desired size of the "8")
+drive_speed = 120  # Speed in mm/s
+turn_rate = 50  # Turn rate in degrees per second
+loop_duration = 6  # Duration of each loop in seconds
 
-# Stop the motors when done
-tank_drive.off()
+# Drive in a figure "8"
+drive_figure_8(drive_speed, turn_rate, loop_duration)
+left_motor.stop()
+right_motor.stop()

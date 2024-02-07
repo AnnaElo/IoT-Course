@@ -23,6 +23,7 @@ ev3 = EV3Brick()
 robot = DriveBase(left_motor, right_motor, wheel_diameter=54, axle_track=105)
 robot.drive(600, 0) 
 time.sleep(2)       
+ev3.speaker.beep()
 robot.drive(-300, 0) 
 time.sleep(2)
 
