@@ -13,22 +13,27 @@ ev3 = EV3Brick()
 # Initialize.
 left_motor = Motor(Port.B)
 right_motor = Motor(Port.C)
+TSensor = TouchSensor(Port.S1)
 
 # Setting the default speed.
 speed = 100
 
+while True: 
 # Drive forward and accelerate each second, up to 5s.
-for i in range(1, 6): 
-    # Increasing speed.
-    speed += 100
+    if TSensor.pressed():
+        print("Touch sensor pressed!")  # Debugging.
+        
+        for i in range(1, 6): 
+            # Increasing speed.
+            speed += 100
     
-    # Drive motors at current speed
-    left_motor.run(speed)
-    right_motor.run(speed)
+            # Drive motors at current speed + acceleration
+            left_motor.run(speed)
+            right_motor.run(speed)
     
-    # Wait for one second
-    wait(1000)
+            # Wait for one second
+            wait(1000)
     
-# Stop motors at the end
-left_motor.stop()
-right_motor.stop()
+        # Stop motors at the end
+        left_motor.stop()
+        right_motor.stop()
