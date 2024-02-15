@@ -13,3 +13,4 @@ ev3 = EV3Brick()
 # Print Hello World.
 ev3.screen.print('Hello World!')
 sleep(4)
+stop()
