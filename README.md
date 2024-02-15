@@ -14,4 +14,4 @@ Dividing tasks to members / 15.02.2024:
 - Anna (2.3.3.1 & 2.3.3.2) / Color- Light Sensor tasks
 
 Additional information:
-- Added rule, so nobody put Anna can push to main without permission. When someone else pushes to the main, Anna will need to accept the push-request
+- Added rule, so nobody can push to main without permission of another team member. Anna and Jessica can be charge of when accepting the push-requests.
