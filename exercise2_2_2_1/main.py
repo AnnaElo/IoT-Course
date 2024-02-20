@@ -7,19 +7,15 @@ from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
 
+# Initializing.
 left_motor = Motor(Port.B)
 left_motor.run_time(30, 2000, Stop.COAST, False)
 
 right_motor = Motor(Port.C)
 right_motor.run_time(0, 2000, Stop.COAST, False)
 
-# This program requires LEGO EV3 MicroPython v2.0 or higher.
-# Click "Open user guide" on the EV3 extension tab for more information.
-
-
 # Create your objects here.
 ev3 = EV3Brick()
-
 
 # Drive straight 2 seconds.
 import time

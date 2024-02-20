@@ -6,23 +6,20 @@ from pybricks.parameters import Port, Stop, Direction, Button, Color
 from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
-import time
-
-# Initialize
-left_motor = Motor(Port.B)
-right_motor = Motor(Port.C)
 
 # Create your objects here.
 ev3 = EV3Brick()
 
-# Change of Direction and Speed.
-robot = DriveBase(left_motor, right_motor, wheel_diameter=54, axle_track=105)
+# Initialize.
+TSensor = TouchSensor(Port.S1)
 
-robot.settings(straight_speed=1000)
+# Play a tone
+# Each time when pressing the touch sensor, the robot shall play a tone.
+# Hint: For this task, you have to combine a loop (while:) with a condition (if:).
 
-
-robot.straight(1000) 
-time.sleep(2)       
-ev3.speaker.beep()
-robot.straight(-1000)  
-robot.stop()
+# Loop structure for the code.
+while True: 
+    if TSensor.pressed():
+        ev3.screen.print("Pressed") # Change this part to playing the tone. 
+    else:
+        ev3.screen.print("Released") # When it's not pressed it should be silent.
