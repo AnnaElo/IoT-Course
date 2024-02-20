@@ -7,7 +7,6 @@ from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
 
-<<<<<<< HEAD
 
 # This program requires LEGO EV3 MicroPython v2.0 or higher.
 # Click "Open user guide" on the EV3 extension tab for more information.
@@ -45,30 +44,3 @@ for _ in range(acceleration_duration):
 
 # After finishing the acceleration, stop the robot
 robot.stop()
-=======
-# Create your objects here.
-ev3 = EV3Brick()
-
-# Initialize.
-left_motor = Motor(Port.B)
-right_motor = Motor(Port.C)
-
-# Setting the default speed.
-speed = 100
-
-# Drive forward and accelerate each second, up to 5s.
-for i in range(1, 6): 
-    # Increasing speed.
-    speed += 100
-    
-    # Drive motors at current speed
-    left_motor.run(speed)
-    right_motor.run(speed)
-    
-    # Wait for one second
-    wait(1000)
-    
-# Stop motors at the end
-left_motor.stop()
-right_motor.stop()
->>>>>>> ccce56423ee5e37cf4e799fe09071889467ffd9f
