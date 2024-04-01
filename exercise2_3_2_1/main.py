@@ -8,13 +8,19 @@ from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
 
 
-# This program requires LEGO EV3 MicroPython v2.0 or higher.
-# Click "Open user guide" on the EV3 extension tab for more information.
-
-
 # Create your objects here.
 ev3 = EV3Brick()
 
+# Initialize.
+UltraSensor = UltrasonicSensor(Port.S4)
+left_motor = Motor(Port.B)
+right_motor = Motor(Port.C)
+robot = DriveBase(left_motor, right_motor, 56, 114)
 
 # Write your program here.
-ev3.speaker.beep()
+robot.drive(200,0)
+
+if UltraSensor.distance() > 200:
+    wait(10)
+
+robot.stop()
