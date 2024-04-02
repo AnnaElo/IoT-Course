@@ -16,5 +16,13 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 ev3 = EV3Brick()
 
 
-# Write your program here.
-ev3.speaker.beep()
+# Write your program here // Middle button red, else green
+while True:
+    pressed_buttons = ev3.buttons.pressed()
+    ev3.screen.clear()
+
+    if Button.CENTER in pressed_buttons:
+        ev3.light.on(Color.RED)
+    else:
+        ev3.light.on(Color.GREEN)                  
+    wait(100)
