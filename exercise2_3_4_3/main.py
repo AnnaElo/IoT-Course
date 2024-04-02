@@ -16,5 +16,23 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 ev3 = EV3Brick()
 
 
-# Write your program here.
-ev3.speaker.beep()
+# Create your objects here.
+ev3 = EV3Brick()
+
+
+# Write your program here // Only one button pressed at the time
+while True:
+    pressed_buttons = ev3.buttons.pressed()
+    ev3.screen.clear()
+
+    if Button.UP in pressed_buttons:
+        ev3.screen.print("Up button pressed")
+    elif Button.DOWN in pressed_buttons:
+        ev3.screen.print("Down button pressed")
+    elif Button.LEFT in pressed_buttons:
+        ev3.screen.print("Left button pressed")
+    elif Button.RIGHT in pressed_buttons:
+        ev3.screen.print("Right button pressed")
+    elif Button.CENTER in pressed_buttons:
+        ev3.screen.print("Center button pressed")                      
+    wait(100)
