@@ -15,6 +15,29 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 # Create your objects here.
 ev3 = EV3Brick()
 
+# Initialize. 
+CSensor = ColorSensor(Port.S3)
 
-# Write your program here.
-ev3.speaker.beep()
+left_motor = Motor(Port.B)
+right_motor = Motor(Port.C)
+
+robot = DriveBase(left_motor, right_motor, wheel_diameter=54, axle_track=105)
+
+# Write a program which makes the robot follow a black line.
+# On RED, the robot shall stop.
+# When the line turns blue, the robot shall reduce ist speed until the line becomes black again. 
+
+while True:
+    color = CSensor.color()
+
+    if color == Color.RED:
+        robot.stop()
+        break 
+
+    elif color == Color.BLUE:
+        robot.drive(50,0)
+    
+    elif color == Color.BLACK:
+        robot.drive(200,0)
+    
+    wait(10)
