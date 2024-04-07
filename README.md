@@ -8,6 +8,6 @@ Team member list:
 - Nehal Hasnayen
 
 Dividing tasks to members / 02.04.2024:
-- 2.3.3.5 is still missing
-- 3.3.1 until 3.3.4 (simple MQT)
-- 3.3.5.1 until 3.3.5.5 
+- 2.3.3.5 is still missing (Anna works currently on that)
+- 3.3.1 until 3.3.4 (simple MQT tasks)
+- 3.3.5.1 until 3.3.5.5 (more demanding MQT tasks)
