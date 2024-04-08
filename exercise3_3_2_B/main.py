@@ -12,20 +12,25 @@ from umqtt.robust import MQTTClient
 import time
 
 # MQTT setup
-MQTT_ClientID = 'testmqtt'
-MQTT_Broker = '192.168.0.39'
-MQTT_Topic_Status = 'Lego/Status'
+MQTT_ClientID = 'Robot B'
+MQTT_Broker = '192.168.0.39' # Change this to Eclipse Mosquitto ip address
+MQTT_Topic_Status = 'Status'
 client = MQTTClient(MQTT_ClientID, MQTT_Broker, 1883)
-
-# Callback for listen to topics
-def listen(topic,msg):
-    if topic == MQTT_Topic_Status.encode():
-        ev3.screen.print(str(msg.decode()))
 
 # EV3 setup
 ev3 = EV3Brick()
+left_motor = Motor(Port.B)
+right_motor = Motor(Port.C)
+robot = DriveBase(left_motor, right_motor, wheel_diameter=55, axle_track=104)
 
-# Write your program here.
+# Callback for listen to topics
+def listen(topic, msg):
+    if topic == MQTT_Topic_Status.encode() and msg.decode() == 'Start Driving':
+        ev3.screen.print('Received Start Command')
+        # Start driving
+        robot.drive(50, 0)
+
+# Initializing MQTT
 client.connect()
 time.sleep(0.5)
 client.publish(MQTT_Topic_Status, 'Started')
@@ -35,7 +40,3 @@ client.subscribe(MQTT_Topic_Status)
 time.sleep(0.5)
 client.publish(MQTT_Topic_Status, 'Listening')
 ev3.screen.print('Listening')
-
-while True:
- client.check_msg()
- time.sleep(0.5)
