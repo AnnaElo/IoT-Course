@@ -7,10 +7,10 @@ from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
 
-# Create your objects here.
+# Create your objects here
 ev3 = EV3Brick()
 
-# Initialize. 
+# Initialize
 CSensor = ColorSensor(Port.S3)
 
 left_motor = Motor(Port.B)
@@ -18,44 +18,51 @@ right_motor = Motor(Port.C)
 
 robot = DriveBase(left_motor, right_motor, wheel_diameter=54, axle_track=105)
 
-# Count the lines and detect the colors.
-RED_line_count = 0
-GREEN_line_count = 0
-BLACK_line_count = 0
-YELLOW_line_count = 0
+# Array to store the colors
+color_sequence = []
 
-watch=StopWatch()
+# Play different notes to different colors
+def play_tones():
+    for color in color_sequence:
+        if color == Color.RED:
+            ev3.speaker.beep(frequency=261.63, duration=500)  # C note
+        elif color == Color.GREEN:
+            ev3.speaker.beep(frequency=293.66, duration=500)  # D note
+        elif color == Color.BLACK:
+            ev3.speaker.beep(frequency=440.00, duration=500)  # A note
+        elif color == Color.YELLOW:
+            ev3.speaker.beep(frequency=349.23, duration=500)  # F note
+
+# Count the lines and detect the colors
+colors_count = {Color.RED: 0, Color.GREEN: 0, Color.BLACK: 0, Color.YELLOW: 0}
+
+watch = StopWatch()
 color = CSensor.color()
 
-# The robot shall drive forward and count how often it crosses a colored line.
+# The robot shall drive forward and count how often it crosses a colored line
 while watch.time() < 5000:
     robot.drive(50,0)
 
-    if color == Color.RED:
-        RED_line_count += 1
+    if color in colors_count:
+        colors_count[color] += 1
         ev3.screen.clear()
-        print("Red lines count: {}" .format(RED_line_count)) #cal also be ev3.screen.print()
-    wait(10) #10 milisecond wait
+        print("{} lines count: {}".format(color.name(), colors_count[color]))
+    
+    wait(10)  # 10 millisecond wait
 
-    if color == Color.GREEN:
-        GREEN_line_count += 1
+# Storing the detected colors
+while True:
+    if robot.buttons.pressed():
+        color_sequence.append(CSensor.color())
         ev3.screen.clear()
-        print("Green lines count: {}" .format(GREEN_line_count)) #cal also be ev3.screen.print()
-    wait(10) #10 milisecond wait    
+        ev3.screen.print("Sequence: " + ', '.join(c.name() for c in color_sequence))
+        wait(200)  # Wait for button release
 
-    if color == Color.BLACK:
-        BLACK_line_count += 1
+    elif robot.buttons.released():
+        play_tones()
+        color_sequence.clear()
         ev3.screen.clear()
-        print("Black lines count: {}" .format(BLACK_line_count)) #cal also be ev3.screen.print()
-    wait(10) #10 milisecond wait 
-
-    if color == Color.YELLOW:
-        YELLOW_line_count += 1
-        ev3.screen.clear()
-        print("Yellow lines count: {}" .format(YELLOW_line_count)) #cal also be ev3.screen.print()
-    wait(10) #10 milisecond wait 
-
-
-#for the sound part
-#for i in range(line_count):
-    #ev3.speaker.beep()
+        ev3.screen.print("Sequence cleared")
+        wait(200)  # Debounce button
+        
+    wait(10)  # 10 millisecond wait
