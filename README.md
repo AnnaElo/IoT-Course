@@ -7,7 +7,6 @@ Team member list:
 - Nisha Yogi
 - Nehal Hasnayen
 
-Dividing tasks to members / 02.04.2024:
-- 2.3.3.5 is still missing (Anna works currently on that)
-- 3.3.1 until 3.3.4 (Anna works 3.3.1 & 3.3.2)
+Dividing tasks to members / 08.04.2024:
+- 3.3.3 until 3.3.4 (simplier MQT tasks)
 - 3.3.5.1 until 3.3.5.5 (more demanding MQT tasks)

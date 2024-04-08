@@ -12,26 +12,15 @@ from umqtt.robust import MQTTClient
 import time
 
 # MQTT setup
-MQTT_ClientID = 'Robot_A'
+MQTT_ClientID = 'Robot_B'
 MQTT_Broker = '192.168.0.39' # Change this to Eclipse Mosquitto ip address
-MQTT_Topic_Status = 'Lego/Status'
+MQTT_Topic_Status = 'Status'
 client = MQTTClient(MQTT_ClientID, MQTT_Broker, 1883)
-
-# Callback for listen to topics
-def listen(topic,msg):
-    if topic == MQTT_Topic_Status.encode():
-        ev3.screen.clear()
-        ev3.screen.print(str(msg.decode()))
 
 # EV3 setup
 ev3 = EV3Brick()
 
 # Program for robot B
 client.connect()
-
-client.set_callback(listen)
-client.subscribe(MQTT_Topic_Status)
-
-while True:
- client.check_msg()
- time.sleep(0.5)
+client.publish(MQTT_Topic_Status, 'Hello World!')
+client.disconnect()
