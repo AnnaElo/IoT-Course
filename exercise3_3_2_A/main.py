@@ -50,12 +50,9 @@ while True:
     if distance < 100:  
         client.publish(MQTT_Topic_Status, 'Close to Robot B')
         ev3.screen.print('Close to Robot B')
+
         break
     wait(100)  # Adjust wait time as needed
 
-# Stop moving Robot A
-robot.stop()
 
-# Send message to Robot B to start driving
-client.publish(MQTT_Topic_Status, 'Start Driving')
-ev3.screen.print('Start Driving')
+
