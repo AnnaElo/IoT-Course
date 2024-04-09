@@ -20,12 +20,12 @@ robot = DriveBase(left_motor, right_motor, wheel_diameter=54, axle_track=105)
 
 # The robot shall drive forward until it reaches a red line. The robot shall stop at the line. 
 while True:
-    
     color = CSensor.color()
     robot.drive(100, 0)  # Drive forward at 100 mm/s
 
     # If the color is red
     if color == Color.RED:
         ev3.speaker.beep() 
-        left_motor.stop()
-        right_motor.stop()
+        robot.stop()
+
+    wait(100)
