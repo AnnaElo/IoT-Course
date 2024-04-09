@@ -7,6 +7,16 @@ Team member list:
 - Nisha Yogi
 - Nehal Hasnayen
 
-Dividing tasks to members / 08.04.2024:
-- 3.3.3 until 3.3.4 (simplier MQT tasks)
-- 3.3.5.1 until 3.3.5.5 (more demanding MQT tasks)
+---
+
+(the codes that are not mentioned are working)
+
+Testing process:
+* 2.3.2.2 does not work properly
+* 2.3.3.2 Stop on Red need work
+* 2.3.3.4 It's still work in progress
+
+----
+
+Left to Test:
+* 2.3.3.4 -> 
