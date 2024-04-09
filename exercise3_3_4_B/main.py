@@ -8,48 +8,33 @@ from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
 
 # MQTT setup
-MQTT_ClientID = 'Robot A'
+MQTT_ClientID = 'Robot B'
 MQTT_Broker = '192.168.0.39' # Change this to Eclipse Mosquitto ip address
 MQTT_Topic_Status = 'Status'
 client = MQTTClient(MQTT_ClientID, MQTT_Broker, 1883)
 
 # EV3 setup
 ev3 = EV3Brick()
-ev3.speaker.beep()
-sensor = UltrasonicSensor(Port.S4)
 left_motor = Motor(Port.B)
 right_motor = Motor(Port.C)
 robot = DriveBase(left_motor, right_motor, wheel_diameter=55, axle_track=104)
-watch = StopWatch()
 
-# Callback for listen to topics
-def listen(topic,msg):
-    if topic == MQTT_Topic_Status.encode():
-        ev3.screen.print(str(msg.decode()))
 
-# Write your program here
-robot.drive(50, 0)
+def listen(topic, msg):
+    message = msg.decode()
+    if message == 'Robot B: Move':
+        ev3.screen.print('Moving Away')
+        robot.drive(-50, 0)  # Move backward or to the side to clear the path
+        time.sleep(2)  # Move for a bit before stopping
+        robot.stop()
+        client.publish(MQTT_Topic_Status, 'Robot A: Continue')
+        ev3.screen.print('Signaled Robot A to Continue')
 
 client.connect()
-time.sleep(0.5)
-client.publish(MQTT_Topic_Status, 'Started')
-ev3.screen.print('Started')
 client.set_callback(listen)
 client.subscribe(MQTT_Topic_Status)
-time.sleep(0.5)
-client.publish(MQTT_Topic_Status, 'Listening')
-ev3.screen.print('Listening')
 
-#Robot B 
-    while True:
-    if is_robot_a_in_front:  # Shared variable indicates Robot A is in front
-        # Robot B moves out of the way (replace with your logic)
-        robot_b_backward()  # Example (replace with appropriate movement)
-        wait(500)  # Adjust wait time as needed
-        is_robot_b_out_of_way = True
-
-    if is_robot_b_out_of_way:
-         left_motor.stop()
-        right_motor.stop() 
-        client.publish(MQTT_Topic_Status, 'Continue')  
-        break  
+# Robot B doesn't move until it receives a message from Robot A
+while True:
+    client.check_msg()
+    time.sleep(0.1)  # Check for messages periodically

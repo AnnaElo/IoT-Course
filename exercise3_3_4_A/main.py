@@ -22,37 +22,28 @@ right_motor = Motor(Port.C)
 robot = DriveBase(left_motor, right_motor, wheel_diameter=55, axle_track=104)
 watch = StopWatch()
 
-# Callback for listen to topics
-def listen(topic,msg):
-    if topic == MQTT_Topic_Status.encode():
-        ev3.screen.print(str(msg.decode()))
-
-# Write your program here
-robot.drive(50, 0)
+def listen(topic, msg):
+    message = msg.decode()
+    if message == 'Robot A: Continue':
+        ev3.screen.print('Continue')
+        robot.drive(50, 0)  # Resume movement
+        time.sleep(2)  # Move for a bit before stopping to listen again
+        robot.stop()
 
 client.connect()
-time.sleep(0.5)
-client.publish(MQTT_Topic_Status, 'Started')
-ev3.screen.print('Started')
 client.set_callback(listen)
 client.subscribe(MQTT_Topic_Status)
-time.sleep(0.5)
-client.publish(MQTT_Topic_Status, 'Listening')
-ev3.screen.print('Listening')
 
-#Robot A
+robot.drive(50, 0)  # Start driving
+
 while True:
-    distance = sensor_a.distance()
+    distance = sensor.distance()
+    if distance < 200:  # Adjust the distance as needed
+        robot.stop()
+        client.publish(MQTT_Topic_Status, 'Robot B: Move')
+        ev3.screen.print('Waiting for Robot B')
+        break
+    wait(100)
 
-    if distance < 200:  # Robot A close enough (adjustable threshold)
-        is_robot_a_in_front = True
-        left_motor.stop()
-        right_motor.stop() 
-        break  
-
-     left_motor.run(360)
-     right_motor.run(360)
-      
-
-    
+client.check_msg()  # Check for messages from Robot B
 
