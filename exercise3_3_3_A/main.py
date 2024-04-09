@@ -40,14 +40,19 @@ while True:
     ev3.screen.clear()
 
     if Button.UP in pressed_buttons:
+        client.publish(MQTT_Topic_Command, 'FORWARD')
         ev3.screen.print('Up button pressed')
     elif Button.DOWN in pressed_buttons:
+        client.publish(MQTT_Topic_Command, 'BACKWARD')
         ev3.screen.print('Down button pressed')
     elif Button.LEFT in pressed_buttons:
+        client.publish(MQTT_Topic_Command, 'LEFT')
         ev3.screen.print('Left button pressed')
     elif Button.RIGHT in pressed_buttons:
+        client.publish(MQTT_Topic_Command, 'RIGHT')
         ev3.screen.print('Right button pressed')
     elif Button.CENTER in pressed_buttons:
+        client.publish(MQTT_Topic_Command, 'STOP')
         ev3.screen.print('Center button pressed')    
 
     client.check_msg()   
