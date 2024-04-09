@@ -29,6 +29,7 @@ robot = DriveBase(left_motor, right_motor, wheel_diameter=54, axle_track=105)
 
 while True:
     color = CSensor.color()
+    robot.drive(200,0)
 
     if color == Color.RED:
         robot.stop()

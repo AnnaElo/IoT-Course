@@ -20,6 +20,4 @@ TSensor = TouchSensor(Port.S1)
 # Loop structure for the code.
 while True: 
     if TSensor.pressed():
-        ev3.screen.print("Pressed") # Change this part to playing the tone. 
-    else:
-        ev3.screen.print("Released") # When it's not pressed it should be silent.
+        ev3.speaker.beep(frequency=261.63, duration=500)  # C note 

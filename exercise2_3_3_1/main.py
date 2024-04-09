@@ -21,19 +21,31 @@ while True:
     
     # Compare the detected color with predefined color values.
     if color == Color.RED:
-        print("Red detected!")
+        ev3.screen.clear()  
+        ev3.screen.print("Red detected!")
+
     elif color == Color.GREEN:
-        print("Green detected!")
+        ev3.screen.clear() 
+        ev3.screen.print("Green detected!")
+
     elif color == Color.BLUE:
-        print("Blue detected!")
+        ev3.screen.clear() 
+        ev3.screen.print("Blue detected!")
+
     elif color == Color.YELLOW:
-        print("Yellow detected!")
+        ev3.screen.clear() 
+        ev3.screen.print("Yellow detected!")
+
     elif color == Color.WHITE:
-        print("White detected!")
+        ev3.screen.clear() 
+        ev3.screen.print("White detected!")
+
     elif color == Color.BLACK:
-        print("Black detected!")
+        ev3.screen.clear()  
+        ev3.screen.print("Black detected!")
+
     else:
         print("Unknown color detected!")
 
     # Add a short delay to avoid excessive printing.
-    wait(100)
+    wait(300)
