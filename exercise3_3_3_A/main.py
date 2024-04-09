@@ -12,30 +12,43 @@ from umqtt.robust import MQTTClient
 import time
 
 # MQTT setup
-MQTT_ClientID = 'testmqtt'
-MQTT_Broker = '192.168.0.39'
-MQTT_Topic_Status = 'Lego/Status'
+MQTT_ClientID = 'Robot A'
+MQTT_Broker = '192.168.0.39' # Change this to Eclipse Mosquitto ip address
+MQTT_Topic_Command = 'Command'
+MQTT_Topic_Ultrasonic = 'Ultrasonic' 
 client = MQTTClient(MQTT_ClientID, MQTT_Broker, 1883)
-
-# Callback for listen to topics
-def listen(topic,msg):
-    if topic == MQTT_Topic_Status.encode():
-        ev3.screen.print(str(msg.decode()))
 
 # EV3 setup
 ev3 = EV3Brick()
+TSensor = TouchSensor(Port.S1)
 
 # Write your program here.
-client.connect()
-time.sleep(0.5)
-client.publish(MQTT_Topic_Status, 'Started')
-ev3.screen.print('Started')
-client.set_callback(listen)
-client.subscribe(MQTT_Topic_Status)
-time.sleep(0.5)
-client.publish(MQTT_Topic_Status, 'Listening')
-ev3.screen.print('Listening')
+def ultrasonicsensor_val(topic,msg):
+    if topic== MQTT_Topic_Ultrasonic.encode():
+        distance = msg.decode()
+        ev3.screen.clear()
+        ev3.screen.print(f"Distance: {distance}")
 
+client.set_callback(ultrasonicsensor_val)
+client.connect()
+client.subscribe(MQTT_Topic_Ultrasonic)
+
+
+# Write your program here // Depending on which button is pressed, the robot shall play a different tone.
 while True:
- client.check_msg()
- time.sleep(0.5)
+    pressed_buttons = ev3.buttons.pressed()
+    ev3.screen.clear()
+
+    if Button.UP in pressed_buttons:
+        ev3.screen.print('Up button pressed')
+    elif Button.DOWN in pressed_buttons:
+        ev3.screen.print('Down button pressed')
+    elif Button.LEFT in pressed_buttons:
+        ev3.screen.print('Left button pressed')
+    elif Button.RIGHT in pressed_buttons:
+        ev3.screen.print('Right button pressed')
+    elif Button.CENTER in pressed_buttons:
+        ev3.screen.print('Center button pressed')    
+
+    client.check_msg()   
+    wait(100)
