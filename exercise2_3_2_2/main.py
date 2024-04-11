@@ -21,14 +21,14 @@ right_motor = Motor(Port.C)
 
 robot = DriveBase(left_motor, right_motor, wheel_diameter=54, axle_track=105)
 
-# Write your program here.
-while ultrasonic_sensor.distance() > 200: 
-    robot.straight(400)
+# Write your program here
+while not touch_sensor.pressed():
+    while ultrasonic_sensor.distance() > 200:
+        robot.straight(400)
+    robot.stop()
+    robot.turn(180)
+    robot.straight(200)
 
-    if ultrasonic_sensor.distance() <= 200:
-        robot.stop()
-        robot.turn(180)
-
-    if touch_sensor.pressed(): 
-        robot.straight(200)
-        robot.stop()
+# Stop the robot when touch sensor is pressed
+if touch_sensor.pressed():
+    robot.stop()
