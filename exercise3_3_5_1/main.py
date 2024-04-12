@@ -8,7 +8,6 @@ import time
 
 # EV3 setup
 ev3 = EV3Brick()
-sensor = UltrasonicSensor(Port.S4)
 left_motor = Motor(Port.B)
 right_motor = Motor(Port.C)
 robot = DriveBase(left_motor, right_motor, wheel_diameter=55, axle_track=104)
@@ -41,12 +40,12 @@ class Robot(Thread):
         global song
         while True:
             if self.note in song:
-                print(f"Playing note: {self.note}")
+                print("Playing note: {}".format(self.note))
 
                
 
-                song = song.replace(f"{self.note},", "", 1)
-                time.sleep(1) 
+                song = song.replace("{}, ".format(self.note), "", 1)
+                time.sleep(1)
 
 
 robots = [Robot(note) for note in notes.keys()]
@@ -54,8 +53,13 @@ robots = [Robot(note) for note in notes.keys()]
 
 num_robots = len(robots)
 num_notes = len(notes)
-for i in range(num_robots):
-    robots[i].note = list(notes.keys())[i % num_notes]
+
+# Assign notes to robots based on the keys of the notes dictionary
+for i, robot in enumerate(robots):
+    robot.note = list(notes.keys())[i % num_notes]
+
+#for i in range(num_robots):
+    #robots[i].note = list(notes.keys())[i % num_notes]
 
 
 for robot in robots:

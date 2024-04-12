@@ -25,9 +25,10 @@ robot = DriveBase(left_motor, right_motor, wheel_diameter=54, axle_track=105)
 while not touch_sensor.pressed():
     while ultrasonic_sensor.distance() > 200:
         robot.straight(400)
-    robot.stop()
-    robot.turn(180)
-    robot.straight(200)
+    if ultrasonic_sensor.distance() < 200:
+        robot.stop()
+        robot.turn(180)
+        robot.straight(200)
 
 # Stop the robot when touch sensor is pressed
 if touch_sensor.pressed():
