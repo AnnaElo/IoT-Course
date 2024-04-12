@@ -28,17 +28,16 @@ robot = DriveBase(left_motor, right_motor, wheel_diameter=54, axle_track=105)
 # When the line turns blue, the robot shall reduce ist speed until the line becomes black again. 
 
 while True:
-    color = CSensor.color()
-    robot.drive(200,0)
+    color = CSensor.color()    
 
-    if color == Color.RED:
+    if color == Color.BLACK:
+        robot.drive(200,0)         
+
+    elif color == Color.RED:
         robot.stop()
         break 
-
+    
     elif color == Color.BLUE:
         robot.drive(50,0)
-    
-    elif color == Color.BLACK:
-        robot.drive(200,0)
     
     wait(10)
