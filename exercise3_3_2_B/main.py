@@ -40,3 +40,14 @@ client.subscribe(MQTT_Topic_Status)
 time.sleep(0.5)
 client.publish(MQTT_Topic_Status, 'Listening')
 ev3.screen.print('Listening')
+
+
+# Stop moving Robot A
+robot.stop()
+
+# Send message to Robot B to start driving
+client.publish(MQTT_Topic_Status, 'Start Driving')
+ev3.screen.print('Start Driving')
+
+
+
