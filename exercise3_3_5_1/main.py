@@ -20,7 +20,6 @@ import time
 
 song = "C4,2,E4,4,G4,4,C4,2,E4,4,G4,4,A4,4,F4,4,A4,4,F4,4,C5,4"
 
-
 notes = {
     "C4": 261.63,
     "D4": 293.66,
@@ -31,39 +30,22 @@ notes = {
     "C5": 523.25,
 }
 
+# Function to play a note
+def play_note(note, duration):
+    if note in notes:
+        frequency = notes[note]
+        ev3.speaker.beep(frequency=frequency, duration=duration * 100)  # Duration is in milliseconds
 
-class Robot(Thread):
-    def __init__(self, note):
-        super().__init__()
-        self.note = note
+# Function to play the song
+def play_song(song):
+    notes_in_song = song.split(',')
+    for i in range(0, len(notes_in_song), 2):
+        note = notes_in_song[i]
+        duration = int(notes_in_song[i + 1])
+        play_note(note, duration)
+        time.sleep(duration / 10)  # Adjust sleep to match the rhythm of the song
 
-    def run(self):
-        global song
-        while True:
-            if self.note in song:
-                print(f"Playing note: {self.note}")
-
-               
-
-                song = song.replace(f"{self.note},", "", 1)
-                time.sleep(1) 
-
-
-robots = [Robot(note) for note in notes.keys()]
-
-
-num_robots = len(robots)
-num_notes = len(notes)
-for i in range(num_robots):
-    robots[i].note = list(notes.keys())[i % num_notes]
-
-
-for robot in robots:
-    robot.start()
-
-
-for robot in robots:
-    robot.join()
+play_song(song)
 
 print("Song finished!")
 
