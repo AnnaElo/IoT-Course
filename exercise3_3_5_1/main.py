@@ -19,7 +19,6 @@ import time
 
 song = "C4,2,E4,4,G4,4,C4,2,E4,4,G4,4,A4,4,F4,4,A4,4,F4,4,C5,4"
 
-
 notes = {
     "C4": 261.63,
     "D4": 293.66,
@@ -40,12 +39,12 @@ class Robot(Thread):
         global song
         while True:
             if self.note in song:
-                print("Playing note: {}".format(self.note))
+                print(f"Playing note: {self.note}")
 
                
 
-                song = song.replace("{}, ".format(self.note), "", 1)
-                time.sleep(1)
+                song = song.replace(f"{self.note},", "", 1)
+                time.sleep(1) 
 
 
 robots = [Robot(note) for note in notes.keys()]
@@ -53,13 +52,8 @@ robots = [Robot(note) for note in notes.keys()]
 
 num_robots = len(robots)
 num_notes = len(notes)
-
-# Assign notes to robots based on the keys of the notes dictionary
-for i, robot in enumerate(robots):
-    robot.note = list(notes.keys())[i % num_notes]
-
-#for i in range(num_robots):
-    #robots[i].note = list(notes.keys())[i % num_notes]
+for i in range(num_robots):
+    robots[i].note = list(notes.keys())[i % num_notes]
 
 
 for robot in robots:
