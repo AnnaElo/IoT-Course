@@ -45,7 +45,7 @@ ev3.screen.print('Listening')
     if is_robot_a_in_front:  # Shared variable indicates Robot A is in front
         # Robot B moves out of the way (replace with your logic)
         robot_b_backward()  # Example (replace with appropriate movement)
-        wait(500)  # Adjust wait time as needed
+        wait(500) 
         is_robot_b_out_of_way = True
 
     if is_robot_b_out_of_way:
@@ -53,3 +53,17 @@ ev3.screen.print('Listening')
         right_motor.stop() 
         client.publish(MQTT_Topic_Status, 'Continue')  
         break  
+
+
+
+
+
+# Function for Robot B to move out of the way
+def move_out_of_the_way():
+    while True:
+        if is_robot_a_in_front:  # Check if Robot A is in front
+            # Move Robot B backward and turn
+            robot_b.drive_time(-100, 0, 2000)  # Adjust speed and time as needed
+            robot_b.turn(90)  # Adjust angle as needed
+            is_robot_b_out_of_way = True  # Update shared variable
+            break  # Exit loop once Robot B moves out of the way
