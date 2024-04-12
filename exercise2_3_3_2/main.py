@@ -25,7 +25,6 @@ while True:
 
     # If the color is red
     if color == Color.RED:
-        ev3.speaker.beep() 
-        robot.stop()
 
-    wait(100)
+        robot.stop()
+        break
