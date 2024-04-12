@@ -17,6 +17,12 @@ Testing process:
 * 2.3.3.4 It's still work in progress
 
 ----
+FOR THE COMPLEX EXERCISES
+
+3351: Conductor
+3352: Vacuum cleaner 2
+
+----
 
 Left to Test:
 * 2.3.3.4 -> 
