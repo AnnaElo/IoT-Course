@@ -8,7 +8,7 @@ import time
 
 # EV3 setup
 ev3 = EV3Brick()
-#sensor = UltrasonicSensor(Port.S4)
+sensor = UltrasonicSensor(Port.S4)
 left_motor = Motor(Port.B)
 right_motor = Motor(Port.C)
 robot = DriveBase(left_motor, right_motor, wheel_diameter=55, axle_track=104)
@@ -26,7 +26,7 @@ inspection_message = "Robot {id} needs inspection!"
 
 
 def send_message(message):
-    print("Sending message: {message}")
+    print(f"Sending message: {message}")
 
 
 class LEDControl:
@@ -35,11 +35,11 @@ class LEDControl:
 
     def set_color(self, robot_id, color):
         self.colors[robot_id] = color
-        print("Robot {robot_id} LED: {color}")  
+        print(f"Robot {robot_id} LED: {color}")  
 
 
 def emit_warning(robot_id):
-    print("Warning! Robot {robot_id} needs inspection.")
+    print(f"Warning! Robot {robot_id} needs inspection.")
 
 class Robot:
     def _init_(self, robot_id, led_control, message_sender):
@@ -69,7 +69,7 @@ class Robot:
 
             if self.wall_count >= 10:
                 self.led_control.set_color(self.id, "red")
-                print("Robot {self.id} stopped after reaching 10 walls.")
+                print(f"Robot {self.id} stopped after reaching 10 walls.")
                 break  
 
     

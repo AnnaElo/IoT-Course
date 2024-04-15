@@ -19,10 +19,5 @@ Testing process:
 ----
 FOR THE COMPLEX EXERCISES
 
-3351: Conductor
-3352: Vacuum cleaner 2
-
-----
-
-Left to Test:
-* 2.3.3.4 -> 
+3351: Conductor (DONE)
+3352: Vacuum cleaner 2 (TO CHECK CODE -- JESSICA)
