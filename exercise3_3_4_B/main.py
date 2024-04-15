@@ -35,7 +35,7 @@ client.set_callback(listen)
 client.subscribe(MQTT_Topic_Status)
 
 #Robot B 
-    while True:
+while True:
     if is_robot_a_in_front:  # Shared variable indicates Robot A is in front
         # Robot B moves out of the way (replace with your logic)
         robot_b_backward()  # Example (replace with appropriate movement)
@@ -45,12 +45,8 @@ client.subscribe(MQTT_Topic_Status)
     if is_robot_b_out_of_way:
          left_motor.stop()
         right_motor.stop() 
-        client.publish(MQTT_Topic_Status, 'Continue')  
-        break  
-
-
-
-
+    client.publish(MQTT_Topic_Status, 'Continue')  
+    break  
 
 # Function for Robot B to move out of the way
 def move_out_of_the_way():
