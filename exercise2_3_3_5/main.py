@@ -26,7 +26,7 @@ def play_tones():
     for color in color_sequence:
         if color == Color.RED:
             ev3.speaker.beep(frequency=261.63, duration=500)  # C note
-        elif color == Color.GREEN:
+        elif color == Color.BLUE:
             ev3.speaker.beep(frequency=293.66, duration=500)  # D note
         elif color == Color.BLACK:
             ev3.speaker.beep(frequency=440.00, duration=500)  # A note
@@ -34,13 +34,14 @@ def play_tones():
             ev3.speaker.beep(frequency=349.23, duration=500)  # F note
 
 # Count the lines and detect the colors
-colors_count = {Color.RED: 0, Color.GREEN: 0, Color.BLACK: 0, Color.YELLOW: 0}
+colors_count = {Color.RED: 0, Color.BLUE: 0, Color.BLACK: 0, Color.YELLOW: 0}
 
 watch = StopWatch()
 color = CSensor.color()
 
 # The robot shall drive forward and count how often it crosses a colored line
 while watch.time() < 5000:
+    print("Elapsed time:", watch.time())  # Print elapsed time for debugging
     robot.drive(50,0)
 
     if color in colors_count:
@@ -52,13 +53,14 @@ while watch.time() < 5000:
 
 # Storing the detected colors
 while True:
-    if robot.buttons.pressed():
+    if Button.CENTER in ev3.buttons.pressed():
+    #if robot.buttons.pressed():
         color_sequence.append(CSensor.color())
         ev3.screen.clear()
         ev3.screen.print("Sequence: " + ', '.join(c.name() for c in color_sequence))
         wait(200)  # Wait for button release
 
-    elif robot.buttons.released():
+    elif Button.CENTER in ev3.buttons.released():
         play_tones()
         color_sequence.clear()
         ev3.screen.clear()

@@ -85,4 +85,3 @@ robots = [Robot(i + 1, led_control, send_message) for i in range(num_robots)]
 
 for robot in robots:
     robot.run()  
-

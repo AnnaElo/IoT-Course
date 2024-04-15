@@ -8,7 +8,6 @@ import time
 
 # EV3 setup
 ev3 = EV3Brick()
-sensor = UltrasonicSensor(Port.S4)
 left_motor = Motor(Port.B)
 right_motor = Motor(Port.C)
 robot = DriveBase(left_motor, right_motor, wheel_diameter=55, axle_track=104)
@@ -48,5 +47,3 @@ def play_song(song):
 play_song(song)
 
 print("Song finished!")
-
-
