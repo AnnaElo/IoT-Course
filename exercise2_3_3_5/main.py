@@ -36,35 +36,48 @@ def play_tones():
 # Count the lines and detect the colors
 colors_count = {Color.RED: 0, Color.BLUE: 0, Color.BLACK: 0, Color.YELLOW: 0}
 
-watch = StopWatch()
-color = CSensor.color()
+# Mapping between color values and their names
+COLOR_NAMES = {
+    Color.RED: "RED",
+    Color.BLUE: "BLUE",
+    Color.BLACK: "BLACK",
+    Color.YELLOW: "YELLOW"
+}
 
-# The robot shall drive forward and count how often it crosses a colored line
-while watch.time() < 5000:
-    print("Elapsed time:", watch.time())  # Print elapsed time for debugging
-    robot.drive(50,0)
+watch = StopWatch()
+
+start_time = watch.time()
+while watch.time() - start_time < 10000:
+    robot.drive(100, 0)
+
+    color = CSensor.color()
 
     if color in colors_count:
         colors_count[color] += 1
         ev3.screen.clear()
-        print("{} lines count: {}".format(color.name(), colors_count[color]))
-    
+        color_name = COLOR_NAMES.get(color, "")
+        ev3.screen.print("{} lines count: {}".format(color_name, colors_count[color]))  # Display detected color
+        print("{} lines count: {}".format(color_name, colors_count[color]))
+        
     wait(10)  # 10 millisecond wait
 
-# Storing the detected colors
+robot.stop()  # Stop the robot after 10 seconds
+
+# Modify the second while loop for button handling
+button_pressed = False
+button_released = False
+
 while True:
-    if Button.CENTER in ev3.buttons.pressed():
-    #if robot.buttons.pressed():
+    if Button.CENTER in ev3.buttons.pressed() and not button_pressed:
+        button_pressed = True
         color_sequence.append(CSensor.color())
         ev3.screen.clear()
-        ev3.screen.print("Sequence: " + ', '.join(c.name() for c in color_sequence))
-        wait(200)  # Wait for button release
-
-    elif Button.CENTER in ev3.buttons.released():
+        ev3.screen.print("Sequence: " + ', '.join(COLOR_NAMES[c] for c in color_sequence))
+    elif Button.CENTER not in ev3.buttons.pressed() and button_pressed:
+        button_pressed = False
         play_tones()
         color_sequence.clear()
         ev3.screen.clear()
         ev3.screen.print("Sequence cleared")
-        wait(200)  # Debounce button
-        
+    
     wait(10)  # 10 millisecond wait
