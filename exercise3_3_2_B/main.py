@@ -25,29 +25,14 @@ robot = DriveBase(left_motor, right_motor, wheel_diameter=55, axle_track=104)
 
 # Callback for listen to topics
 def listen(topic, msg):
-    if topic == MQTT_Topic_Status.encode() and msg.decode() == 'Start Driving':
-        ev3.screen.print('Received Start Command')
-        # Start driving
-        robot.drive(50, 0)
+    if topic == MQTT_Topic_Status.encode() and msg.decode() == 'Close':
+        ev3.screen.print('Close to Robot A')
+        robot.drive_time(100, 0, 10000)  # Drive forward at 100 mm/s for 10 seconds (10000 milliseconds)
+        time.sleep(10)
+        robot.stop()
+
 
 # Initializing MQTT
-client.connect()
-time.sleep(0.5)
-client.publish(MQTT_Topic_Status, 'Started')
-ev3.screen.print('Started')
 client.set_callback(listen)
 client.subscribe(MQTT_Topic_Status)
-time.sleep(0.5)
-client.publish(MQTT_Topic_Status, 'Listening')
 ev3.screen.print('Listening')
-
-
-# Stop moving Robot A
-robot.stop()
-
-# Send message to Robot B to start driving
-client.publish(MQTT_Topic_Status, 'Start Driving')
-ev3.screen.print('Start Driving')
-
-
-
