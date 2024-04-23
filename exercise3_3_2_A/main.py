@@ -26,33 +26,31 @@ robot = DriveBase(left_motor, right_motor, wheel_diameter=55, axle_track=104)
 watch = StopWatch()
 
 # Callback for listen to topics
-def listen(topic,msg):
+def listen(topic, msg):
     if topic == MQTT_Topic_Status.encode():
-        ev3.screen.print(str(msg.decode()))
+        status_msg = str(msg.decode())
+        ev3.screen.print(status_msg)
+        if status_msg == 'Close':
+            robot.stop() # Stop robot A 
 
 # Write your program here
-robot.drive(50, 0)
+robot.drive(100, 0)
 
+# Initializing MQTT
 client.connect()
 time.sleep(0.5)
-client.publish(MQTT_Topic_Status, 'Started')
-ev3.screen.print('Started')
 client.set_callback(listen)
 client.subscribe(MQTT_Topic_Status)
-time.sleep(0.5)
-client.publish(MQTT_Topic_Status, 'Listening')
 ev3.screen.print('Listening')
 
 # Loop until Robot B is detected nearby
 while True:
     client.check_msg()
+    time.sleep(0.5)
     distance = sensor.distance()
     if distance < 100:  
-        client.publish(MQTT_Topic_Status, 'Close to Robot B')
+        client.publish(MQTT_Topic_Status, 'Close')
         ev3.screen.print('Close to Robot B')
 
         break
     wait(100)  # Adjust wait time as needed
-
-
-

@@ -23,11 +23,11 @@ ev3 = EV3Brick()
 TSensor = TouchSensor(Port.S1)
 
 # Write your program here.
-def ultrasonicsensor_val(topic,msg):
-    if topic== MQTT_Topic_Ultrasonic.encode():
-        distance = msg.decode()
+def ultrasonicsensor_val(topic, msg):
+    if topic == MQTT_Topic_Ultrasonic.encode():
+        distance = str(msg.decode())
         ev3.screen.clear()
-        ev3.screen.print(f"Distance: {distance}")
+        ev3.screen.print("Distance: {}".format(distance))
 
 client.set_callback(ultrasonicsensor_val)
 client.connect()
@@ -56,4 +56,4 @@ while True:
         ev3.screen.print('Center button pressed')    
 
     client.check_msg()   
-    wait(100)
+    time.sleep(0.1)

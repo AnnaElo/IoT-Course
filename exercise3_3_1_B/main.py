@@ -11,16 +11,16 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 from umqtt.robust import MQTTClient
 import time
 
+# EV3 setup
+ev3 = EV3Brick()
+
 # MQTT setup
 MQTT_ClientID = 'Robot_B'
 MQTT_Broker = '192.168.0.39' # Change this to Eclipse Mosquitto ip address
 MQTT_Topic_Status = 'Status'
 client = MQTTClient(MQTT_ClientID, MQTT_Broker, 1883)
 
-# EV3 setup
-ev3 = EV3Brick()
-
 # Program for robot B
-client.connect()
 client.publish(MQTT_Topic_Status, 'Hello World!')
+time.sleep(1)  # Wait for Robot A to receive the message
 client.disconnect()

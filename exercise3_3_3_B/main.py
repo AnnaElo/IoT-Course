@@ -19,16 +19,16 @@ MQTT_Topic_Command = 'Command'
 MQTT_Topic_Ultrasonic = 'Ultrasonic'  # Topic for sending ultrasonic sensor value to Robot A
 client = MQTTClient(MQTT_ClientID, MQTT_Broker, 1883)
 
-
 # EV3 setup
 ev3 = EV3Brick()
 left_motor = Motor(Port.B)
 right_motor = Motor(Port.C)
 ultrasonic_sensor = UltrasonicSensor(Port.S4)  # Ensure the correct port is used
+
 # Callback function to handle command messages
 def command_callback(topic, msg):
     if topic == MQTT_Topic_Command.encode():
-        command = msg.decode()
+        command = str(msg.decode())
         execute_command(command)
 
 # Function to execute movements based on commands
@@ -50,10 +50,8 @@ def execute_command(command):
         right_motor.stop()
 
 
-
-
 client.set_callback(command_callback)
-client.connect()
+# client.connect()
 client.subscribe(MQTT_Topic_Command)
 
 # Main loop for publishing ultrasonic sensor values

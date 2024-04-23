@@ -12,6 +12,9 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 from umqtt.robust import MQTTClient
 import time
 
+# EV3 setup
+ev3 = EV3Brick()
+
 # MQTT setup
 MQTT_ClientID = 'Robot_A'
 MQTT_Broker = '192.168.0.39' # Change this to Eclipse Mosquitto ip address
@@ -21,15 +24,13 @@ client = MQTTClient(MQTT_ClientID, MQTT_Broker, 1883)
 # Callback for listen to topics
 def listen(topic,msg):
     if topic == MQTT_Topic_Status.encode():
+        message = str(msg.decode())
         ev3.screen.clear()
-        ev3.screen.print(str(msg.decode()))
-
-# EV3 setup
-ev3 = EV3Brick()
+        ev3.screen.print(message)
 
 # Program for robot A
 client.connect()
-
+time.sleep(0.5)
 client.set_callback(listen)
 client.subscribe(MQTT_Topic_Status)
 
